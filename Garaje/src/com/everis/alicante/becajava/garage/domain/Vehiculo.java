@@ -20,6 +20,19 @@ public class Vehiculo {
 		super();
 		iniMarcas();
 	}
+	public Vehiculo(String matricula) {
+		super();
+		setMatricula(matricula);
+		iniMarcas();
+	}
+	public Vehiculo(String matricula,String modelo, String marca, Cliente cliente) {
+		super();
+		setMatricula(matricula);
+		setMarca(marca);
+		setModelo(modelo);
+		setCliente(cliente);
+		iniMarcas();
+	}
 	public void inputVehiculoData() {
 		Scanner in= new Scanner(System.in);
 		System.out.print("Introduce modelo de vehículo: ");

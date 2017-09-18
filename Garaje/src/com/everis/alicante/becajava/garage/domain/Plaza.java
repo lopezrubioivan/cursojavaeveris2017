@@ -33,7 +33,8 @@ public class Plaza {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("Plaza [numeroPlaza=" + numeroPlaza + ", precio=" + precio + ", metrosCuadrados=" + metrosCuadrados
+		sb.append(this.getClass().getSimpleName());
+		sb.append(" [numeroPlaza=" + numeroPlaza + ", precio=" + precio + ", metrosCuadrados=" + metrosCuadrados
 				+ ", vehiculo=");
 		sb.append((vehiculo==null)?"LIBRE":vehiculo.toString());
 		sb.append("]");

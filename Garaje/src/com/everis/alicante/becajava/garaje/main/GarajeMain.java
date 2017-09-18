@@ -1,9 +1,6 @@
 package com.everis.alicante.becajava.garaje.main;
 
 import java.io.IOException;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -46,7 +43,6 @@ public class GarajeMain {
 	}
 
 	public static void iniciarAplicacion() {
-
 		System.out.println(menuInicio.toString());
 		
 		Scanner in = new Scanner(System.in);
@@ -65,20 +61,20 @@ public class GarajeMain {
 			break;
 		case 0:
 			// logica del caso 0
-			Map<Integer, Plaza> plazas=garajeController.listarPlazas();
+			Map<Integer, Plaza> plazas=garajeController.getPlazas();
 			for (Plaza plaza : plazas.values()) {
 				System.out.println(plaza);
 			}
 			break;
 
 		case 1:
-			// logica del caso 1
-			System.out.println(garajeController.listarPlazasCocheString());
+			// logica del caso 1 listar Plazas de coche
+			garajeController.mostrarCollection(garajeController.getPlazasBySimpleName("PlazaCoche").values());
 			break;
 
 		case 2:
 			// logica del caso 2
-			System.out.println(garajeController.listarPlazasMotoString());
+			garajeController.mostrarCollection(garajeController.getPlazasBySimpleName("PlazaMoto").values());
 			break;
 			
 		case 3:

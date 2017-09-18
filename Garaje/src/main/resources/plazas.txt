@@ -1,10 +1,10 @@
-NUMEROPLAZA;PRECIO;TAMAÑO;TIPO
-2;10.0;2.0;class com.everis.alicante.becajava.garage.domain.Plaza
-3;10.0;2.0;class com.everis.alicante.becajava.garage.domain.Plaza
-4;10.0;2.0;class com.everis.alicante.becajava.garage.domain.Plaza
-5;10.0;2.0;class com.everis.alicante.becajava.garage.domain.Plaza
-6;10.0;2.0;class com.everis.alicante.becajava.garage.domain.Plaza
-7;10.0;2.0;class com.everis.alicante.becajava.garage.domain.Plaza
-8;10.0;2.0;class com.everis.alicante.becajava.garage.domain.Plaza
-9;10.0;2.0;class com.everis.alicante.becajava.garage.domain.Plaza
-10;5.0;1.0;class com.everis.alicante.becajava.garage.domain.Plaza
+NUMEROPLAZA;PRECIO;TAMAÑO;TIPO;VEHICULO
+2;10.0;2.0;PlazaCoche;null
+3;10.0;2.0;PlazaCoche;null
+4;10.0;2.0;PlazaCoche;null
+5;10.0;2.0;PlazaCoche;null
+6;10.0;2.0;PlazaMoto;null
+7;10.0;2.0;PlazaMoto;null
+8;10.0;2.0;PlazaMoto;null
+9;10.0;2.0;PlazaMoto;null
+10;5.0;1.0;PlazaMoto;null
