@@ -8,6 +8,9 @@ public class Moto extends Vehiculo implements Aparcable{
 	public Moto(String matricula,String modelo, String marca, Cliente cliente) {
 		super(matricula,modelo,marca,cliente);
 	}
+	public Moto(String matricula) {
+		super(matricula);
+	}
 	@Override
 	public void aparcar() {
 		// TODO Auto-generated method stub

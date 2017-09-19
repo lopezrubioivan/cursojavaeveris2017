@@ -1,7 +1,9 @@
 MATRICULA;MODELO;MARCA;CLASE;CLIENTE
-4564533;Focus;Ford;Vehiculo;null
-456789AL;Panda;null;Vehiculo;null
-4564534;Focus;Ford;Vehiculo;null
-MOTOMAT;Vespatti;Vespa;Moto;null
-456789GXY;Focus;Ford;Vehiculo;null
-666666A;Toledo;Seat;Coche;456
+4564533;Focus;Ford;Vehiculo;Vehiculonull
+456789AL;Panda;null;Vehiculo;Vehiculonull
+MOTOMAT;Vespatti;Vespa;Moto;Motonull
+4564534;Focus;Ford;Vehiculo;Vehiculonull
+222222XXX;modelomoto;Marcamoto;Moto;Motonull
+321;321;321;Coche;Coche321
+456789GXY;Focus;Ford;Vehiculo;Vehiculonull
+666666A;Toledo;Seat;Coche;Cochenull

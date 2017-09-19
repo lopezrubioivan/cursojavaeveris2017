@@ -33,7 +33,7 @@ public class VehiculoController {
 	
 	
 	public Map<String, Vehiculo> getVehiculos() {
-		return GarajeMain.garaje.getVehiculos();
+		return Garaje.getVehiculos();
 	}
 	public Vehiculo crearVehiculoByString(String line) {
 		String[] stringVehiculo = line.split(";");
@@ -67,15 +67,16 @@ public class VehiculoController {
 		writer.write(CABECERATXT+"\n");
 		writer.close();
 		writer = new FileWriter(fichero, true);
-		String texto;
 		for (Vehiculo vehiculo : getVehiculos().values()) {
 			sb=new StringBuilder();
-			String tipo = vehiculo.getClass().toString();
-			tipo = vehiculo.getClass().getSimpleName();
-			texto = vehiculo.getMatricula() + ";" + vehiculo.getModelo() + ";" + vehiculo.getMarca()+ ";" + tipo
-					+";"+((vehiculo.getCliente()==null)?"null":vehiculo.getCliente().getDni())
-					+"\n";
-			writer.write(texto);
+			String tipo = vehiculo.getClass().getSimpleName();
+			sb.append(vehiculo.getMatricula()).append(";");
+			sb.append(vehiculo.getModelo()).append(";");
+			sb.append(vehiculo.getMarca()).append(";");
+			sb.append(tipo).append(";");
+			sb.append(tipo).append((vehiculo.getCliente()==null)?"null":vehiculo.getCliente().getDni());
+			sb.append("\n");
+			writer.write(sb.toString());
 		}
 		writer.close();
 	}
@@ -105,14 +106,28 @@ public class VehiculoController {
 		Scanner in = new Scanner(System.in);
 		System.out.print("Introduce Matricula: ");
 		String matricula = in.nextLine();
-
 		Vehiculo vehiculo = getVehiculos().get(matricula);
 
 		if (vehiculo == null) {
-			vehiculo = new Vehiculo(matricula);
+			System.out.print("¿Tipo de vehículo? c:Coche m:moto");
+			String tipo = in.nextLine().toLowerCase();
+			switch (tipo) {
+			case "c":
+				vehiculo = new Coche(matricula);
+				break;
+			case "m":
+				vehiculo = new Moto(matricula);
+				break;
+			default:
+				vehiculo = new Vehiculo(matricula);
+				break;
+			}
+			
+			System.out.print("Introduce la marca de vehículo: ");
+			vehiculo.setMarca(in.nextLine());
 			System.out.print("Introduce modelo de vehículo: ");
 			vehiculo.setModelo(in.nextLine());
-		}else {
+		}else{
 			//el vehiculo ya está en la lista de vehiculos
 			System.out.println("Tu coche ya está registrado:");
 			System.out.println(vehiculo.toString());

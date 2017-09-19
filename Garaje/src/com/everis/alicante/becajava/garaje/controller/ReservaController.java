@@ -9,28 +9,30 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
 
 import com.everis.alicante.becajava.garage.domain.Cliente;
+import com.everis.alicante.becajava.garage.domain.Garaje;
 import com.everis.alicante.becajava.garage.domain.Plaza;
 import com.everis.alicante.becajava.garage.domain.Reserva;
 import com.everis.alicante.becajava.garage.domain.Vehiculo;
 import com.everis.alicante.becajava.garaje.main.GarajeMain;
 
-public class reservasController {
+public class ReservaController {
 	/**
 	 * Lee un archivo de texto con la información de la Vehiculos
 	 * 
 	 * @throws IOException
 	 */
-	private final static String CABECERATXT="IDRESERVA;CLIENTE;VEHICULO;PLAZA;FECHARESERVA;FECHAFINRESERVA";
+	private final static String CABECERATXT="CLIENTE;VEHICULO;PLAZA;FECHARESERVA;FECHAFINRESERVA";
 	private final static String FILERESERVASPATH="src/main/resources/reservas.txt";
 	
 	
 	public Map<String, Reserva> getReservas() {
-		return GarajeMain.garaje.getReservas();
+		return Garaje.getReservas();
 	}
 	private static Calendar getCalendarByStringDate(String stringDate) {
 		Locale currentLocale = new Locale("ES");
@@ -51,14 +53,13 @@ public class reservasController {
 	public Reserva crearReservaByString(String line) {
 		String[] stringReserva = line.split(";");
 		
-		String idReserva = stringReserva[0];
-		Cliente cliente = GarajeMain.garaje.getClientes().get(stringReserva[1]);
-		Vehiculo vehiculo = GarajeMain.garaje.getVehiculos().get(stringReserva[2]);
-		Plaza plaza= GarajeMain.garaje.getPlazas().get(stringReserva[3]);
-		Calendar fechaReserva = getCalendarByStringDate(stringReserva[4]);
-		Calendar fechaFinReserva = getCalendarByStringDate(stringReserva[5]);
+		Cliente cliente = Garaje.getClientes().get(stringReserva[0]);
+		Vehiculo vehiculo = Garaje.getVehiculos().get(stringReserva[1]);
+		Plaza plaza= GarajeMain.garaje.getPlazas().get(Integer.parseInt(stringReserva[2]));
+		Calendar fechaReserva = getCalendarByStringDate(stringReserva[3]);
+		Calendar fechaFinReserva = getCalendarByStringDate(stringReserva[4]);
 		
-		Reserva reserva = new Reserva(idReserva,cliente,vehiculo,plaza,fechaReserva,fechaFinReserva);
+		Reserva reserva = new Reserva(cliente,vehiculo,plaza,fechaReserva,fechaFinReserva);
 		return reserva;
 	}
 	public void escribirFicheroReserva() throws IOException {
@@ -68,15 +69,15 @@ public class reservasController {
 		writer.write(CABECERATXT+"\n");
 		writer.close();
 		writer = new FileWriter(fichero, true);
-		String texto;
-		for (Vehiculo vehiculo : getReservas().values()) {
+		for (Reserva reserva : getReservas().values()) {
 			sb=new StringBuilder();
-			String tipo = vehiculo.getClass().toString();
-			tipo = vehiculo.getClass().getSimpleName();
-			texto = vehiculo.getMatricula() + ";" + vehiculo.getModelo() + ";" + vehiculo.getMarca()+ ";" + tipo
-					+";"+((vehiculo.getCliente()==null)?"null":vehiculo.getCliente().getDni())
-					+"\n";
-			writer.write(texto);
+			sb.append(reserva.getCliente().getDni()).append(";");
+			sb.append(reserva.getVehiculo().getMatricula()).append(";");
+			sb.append(reserva.getPlaza().getNumeroPlaza()).append(";");
+			sb.append(reserva.getSimpleFechaReserva()).append(";");
+			sb.append(reserva.getSimpleFechaFinReserva());
+			sb.append("\n");
+			writer.write(sb.toString());
 		}
 		writer.close();
 	}

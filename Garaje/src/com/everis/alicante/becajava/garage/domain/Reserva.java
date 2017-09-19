@@ -1,5 +1,7 @@
 package com.everis.alicante.becajava.garage.domain;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -16,25 +18,52 @@ public class Reserva {
 	private Calendar fechaReserva;
 	private Calendar fechaFinReserva;
 	
-	public Reserva(String idReserva2, Cliente cliente2, Vehiculo vehiculo2, Plaza plaza2, Calendar fechaReserva2,
+	public Reserva() {
+		super();
+	}
+	public Reserva(Cliente cliente, Vehiculo vehiculo, Plaza plaza, Calendar fechaReserva, int diasReserva) {
+		super();
+		setIdReserva(idReserva);
+		setCliente(cliente);
+		setVehiculo(vehiculo);
+		setPlaza(plaza);
+		setFechaReserva(fechaReserva);
+		setFechaFinReserva(getFinReservaDias(diasReserva));
+	}
+	public Reserva(Cliente cliente, Vehiculo vehiculo, Plaza plaza, Calendar fechaReserva) {
+		super();
+		setIdReserva(idReserva);
+		setCliente(cliente);
+		setVehiculo(vehiculo);
+		setPlaza(plaza);
+		setFechaReserva(fechaReserva);
+		setFechaFinReserva(getFinReservaDias(7));//la reserva dura 7 días por defecto
+	}
+	public Reserva(Cliente cliente, Vehiculo vehiculo, Plaza plaza, Calendar fechaReserva,
 			Calendar fechaFinReserva2) {
-		setIdReserva(idReserva2);
-		setCliente(cliente2);
-		setVehiculo(vehiculo2);
-		setPlaza(plaza2);
+		super();
+		setIdReserva(idReserva);
+		setCliente(cliente);
+		setVehiculo(vehiculo);
+		setPlaza(plaza);
 		setFechaFinReserva(fechaFinReserva2);
-		setFechaReserva(fechaReserva2);
+		setFechaReserva(fechaReserva);
 	}
 	public Calendar getFinReservaDias(int dias) {
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		Calendar fechaFinReserva=Calendar.getInstance();
 		fechaFinReserva.setTime(fechaReserva.getTime());
-		fechaFinReserva.set(Calendar.DAY_OF_YEAR, Calendar.DAY_OF_YEAR+dias);
-		
-		System.out.println(sdf.format(fechaFinReserva.getTime()));
+		fechaFinReserva.add(Calendar.DAY_OF_YEAR, dias);
 		return fechaFinReserva;
 	}
 	public static void main(String[] args) {
+	}
+	
+	private String formatSimpleDate(Calendar calendario) {
+		Locale currentLocale = new Locale("ES");
+		String patternSalida = "dd/MM/yyyy";
+		
+		DateFormat formato = new SimpleDateFormat(patternSalida, currentLocale);
+		return formato.format(calendario.getTime());
 	}
 	
 	public Cliente getCliente() {
@@ -72,6 +101,12 @@ public class Reserva {
 	}
 	public void setFechaFinReserva(Calendar fechaFinReserva) {
 		this.fechaFinReserva = fechaFinReserva;
+	}
+	public String getSimpleFechaReserva() {
+		return formatSimpleDate(fechaReserva);
+	}
+	public String getSimpleFechaFinReserva() {
+		return formatSimpleDate(fechaFinReserva);
 	}
 	
 }

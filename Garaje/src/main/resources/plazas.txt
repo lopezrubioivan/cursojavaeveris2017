@@ -1,11 +1,11 @@
 NUMEROPLAZA;PRECIO;TAMAÑO;TIPO;VEHICULO
 1;10.0;2.0;PlazaCoche;4564533
 2;10.0;2.0;PlazaCoche;456789AL
-3;10.0;2.0;PlazaCoche;null
+3;10.0;2.0;PlazaCoche;321
 4;10.0;2.0;PlazaCoche;null
 5;10.0;2.0;PlazaCoche;666666A
 6;10.0;2.0;PlazaMoto;null
-7;10.0;2.0;PlazaMoto;null
+7;10.0;2.0;PlazaMoto;MOTOMAT
 8;10.0;2.0;PlazaMoto;null
-9;10.0;2.0;PlazaMoto;null
-10;5.0;1.0;PlazaMoto;null
+9;10.0;2.0;PlazaMoto;MOTOMAT
+10;5.0;1.0;PlazaMoto;222222XXX

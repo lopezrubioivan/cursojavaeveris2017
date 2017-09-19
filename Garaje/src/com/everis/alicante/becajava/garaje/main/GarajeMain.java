@@ -6,12 +6,14 @@ import java.util.Scanner;
 
 import com.everis.alicante.becajava.garage.domain.Garaje;
 import com.everis.alicante.becajava.garage.domain.Plaza;
+import com.everis.alicante.becajava.garage.domain.PlazaCoche;
 import com.everis.alicante.becajava.garaje.controller.GarajeController;;
 
 public class GarajeMain {
 	public static Garaje garaje;
 	public static GarajeController garajeController;
 	public static StringBuilder menuInicio;
+	public static Scanner in = new Scanner(System.in);
 	public GarajeMain() {
 		// TODO Auto-generated constructor stub
 	}
@@ -25,7 +27,7 @@ public class GarajeMain {
 		// TODO Auto-generated method stub
 		garaje = new Garaje();
 		garajeController=new GarajeController();
-		garajeController.iniciarPlazas();
+		GarajeController.getData();
 		
 		menuInicio = new StringBuilder();
 		menuInicio.append("¡Bienvenido al garaje!\n");
@@ -44,24 +46,18 @@ public class GarajeMain {
 
 	public static void iniciarAplicacion() {
 		System.out.println(menuInicio.toString());
-		
-		Scanner in = new Scanner(System.in);
 		Integer opcion = in.nextInt();
+		in.nextLine();
 		System.out.println("Has elegido la opción " + opcion.toString());
 
 		switch (opcion) {
 		case 9:
 			// logica del caso Guardar Plazas
-			try {
-				garajeController.escribirFicheroPlazas();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			GarajeController.saveData();
 			break;
 		case 0:
 			// logica del caso 0
-			Map<Integer, Plaza> plazas=garajeController.getPlazas();
+			Map<Integer, Plaza> plazas=GarajeController.getPlazaController().getPlazas();
 			for (Plaza plaza : plazas.values()) {
 				System.out.println(plaza);
 			}
@@ -69,25 +65,20 @@ public class GarajeMain {
 
 		case 1:
 			// logica del caso 1 listar Plazas de coche
-			garajeController.mostrarCollection(garajeController.getPlazasBySimpleName("PlazaCoche").values());
+			GarajeController.mostrarCollection(GarajeController.getPlazaController().getPlazasBySimpleName("PlazaCoche").values());
 			break;
-
 		case 2:
-			// logica del caso 2
-			garajeController.mostrarCollection(garajeController.getPlazasBySimpleName("PlazaMoto").values());
+			// logica del caso 2 listar Plazas de moto
+			GarajeController.mostrarCollection(GarajeController.getPlazaController().getPlazasBySimpleName("PlazaMoto").values());
 			break;
-			
 		case 3:
 			// logica del caso 3
-			System.out.print("Introduce número de plaza: ");
-			int numeroPlaza=in.nextInt();
-			in.nextLine();
-			garajeController.reservarPlaza(numeroPlaza);
+			GarajeController.getPlazaController().reservarPlaza();
 			
 			break;
 		case 4:
 			// logica del caso 4
-			garajeController.mostrarCollection(garajeController.getPlazasLibres());
+			GarajeController.mostrarCollection(GarajeController.getPlazaController().getPlazasLibres());
 			
 			break;
 		default:
