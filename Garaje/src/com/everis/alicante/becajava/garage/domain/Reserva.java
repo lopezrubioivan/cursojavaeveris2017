@@ -6,13 +6,25 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
+import javax.net.ServerSocketFactory;
+
 public class Reserva {
+	private String idReserva;
 	private Cliente cliente;
 	private Vehiculo vehiculo;
 	private Plaza plaza;
 	private Calendar fechaReserva;
 	private Calendar fechaFinReserva;
 	
+	public Reserva(String idReserva2, Cliente cliente2, Vehiculo vehiculo2, Plaza plaza2, Calendar fechaReserva2,
+			Calendar fechaFinReserva2) {
+		setIdReserva(idReserva2);
+		setCliente(cliente2);
+		setVehiculo(vehiculo2);
+		setPlaza(plaza2);
+		setFechaFinReserva(fechaFinReserva2);
+		setFechaReserva(fechaReserva2);
+	}
 	public Calendar getFinReservaDias(int dias) {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		Calendar fechaFinReserva=Calendar.getInstance();
@@ -43,4 +55,23 @@ public class Reserva {
 	public void setPlaza(Plaza plaza) {
 		this.plaza = plaza;
 	}
+	public String getIdReserva() {
+		return idReserva;
+	}
+	public void setIdReserva(String idReserva) {
+		this.idReserva = idReserva;
+	}
+	public Calendar getFechaReserva() {
+		return fechaReserva;
+	}
+	public void setFechaReserva(Calendar fechaReserva) {
+		this.fechaReserva = fechaReserva;
+	}
+	public Calendar getFechaFinReserva() {
+		return fechaFinReserva;
+	}
+	public void setFechaFinReserva(Calendar fechaFinReserva) {
+		this.fechaFinReserva = fechaFinReserva;
+	}
+	
 }

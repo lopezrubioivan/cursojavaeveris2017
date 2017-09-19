@@ -9,9 +9,12 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Scanner;
 
 import com.everis.alicante.becajava.garage.domain.Cliente;
+import com.everis.alicante.becajava.garage.domain.Coche;
 import com.everis.alicante.becajava.garage.domain.Garaje;
+import com.everis.alicante.becajava.garage.domain.Moto;
 import com.everis.alicante.becajava.garage.domain.Plaza;
 import com.everis.alicante.becajava.garage.domain.PlazaCoche;
 import com.everis.alicante.becajava.garage.domain.PlazaMoto;
@@ -19,9 +22,9 @@ import com.everis.alicante.becajava.garage.domain.Vehiculo;
 import com.everis.alicante.becajava.garaje.main.GarajeMain;
 
 public class GarajeController {
-	private final static String CABECERATXT="NUMEROPLAZA;PRECIO;TAMAÑO;TIPO;VEHICULO";
+	private final static String CABECERATXT = "NUMEROPLAZA;PRECIO;TAMAÑO;TIPO;VEHICULO";
 	private VehiculoController vehiculoController = new VehiculoController();
-	
+
 	public Map<Integer, Plaza> getPlazas() {
 		return GarajeMain.garaje.getPlazas();
 	}
@@ -52,6 +55,7 @@ public class GarajeController {
 	 */
 	public void iniciarPlazas() {
 		try {
+			vehiculoController.leerFicheroVehiculos();
 			leerFicheroPlazas();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -65,8 +69,9 @@ public class GarajeController {
 			if (plaza.getVehiculo() == null) {
 				Cliente cliente = new Cliente();
 				cliente.inputClienteData();
-				Vehiculo vehiculo = new Vehiculo();
-				vehiculo.inputVehiculoData();
+
+				// Hago un nuevo vehículo (si no existe) y lo añado al mapa de vehículos
+				Vehiculo vehiculo = vehiculoController.inputVehiculo();
 				reservarPlaza(plaza, cliente, vehiculo);
 			} else {
 				System.out.println("La plaza ya está ocupada!!!");
@@ -81,10 +86,35 @@ public class GarajeController {
 	 */
 	public void reservarPlaza(Plaza plaza, Cliente cliente, Vehiculo vehiculo) {
 		vehiculo.setCliente(cliente);
-		plaza.setVehiculo(vehiculo);
+		
+		if (plaza.getVehiculo()!=null) {
+			System.out.println("La plaza está ocupada!");
+			return;
+		}
+		
+		//Compruebo que la plaza coincida con el tipo de vehículo
+		switch (plaza.getClass().getSimpleName()) {
+		case "PlazaCoche":
+			if (vehiculo instanceof Coche) {
+				plaza.setVehiculo(vehiculo);
+			}
+			break;
+		case "PlazaMoto":
+			if (vehiculo instanceof Moto) {
+				plaza.setVehiculo(vehiculo);
+			}
+			break;
+		default:
+			break;
+		}
+		if (plaza.getVehiculo()==null) {
+			System.out.println("La plaza no está disponible para este tipo de vehículo");
+		}
 	}
 
-	/** Lista las plazas de la clase pasada como Strins
+	/**
+	 * Lista las plazas de la clase pasada como Strins
+	 * 
 	 * @param tipo
 	 * @return //
 	 */
@@ -155,8 +185,11 @@ public class GarajeController {
 		Double precioPlaza = Double.parseDouble(stringPlaza[1]);
 		Double metros2Plaza = Double.parseDouble(stringPlaza[2]);
 		Vehiculo vehiculo = null;
-		if (stringPlaza[4] != "null") {
-			vehiculo=new Vehiculo(stringPlaza[4]);
+		String matricula = stringPlaza[4];
+		if (!matricula.equals("null")) {
+			// Si hay matrícula, busco el vehículo con la matricula;
+			Map<String, Vehiculo> vehiculosMap = vehiculoController.getVehiculos();
+			vehiculo = vehiculosMap.get(matricula);
 		}
 		Plaza plaza;
 
@@ -175,20 +208,26 @@ public class GarajeController {
 	}
 
 	public void escribirFicheroPlazas() throws IOException {
+		// primero guardo los vehículos
 		vehiculoController.escribirFicheroVehiculos();
+
+		StringBuilder sb;
+
 		File fichero = new File("src/main/resources/plazas.txt");
 		FileWriter writer = new FileWriter(fichero);
-		writer.write(CABECERATXT+"\n");
+		writer.write(CABECERATXT + "\n");
 		writer.close();
 		writer = new FileWriter(fichero, true);
-		String texto;
 		for (Plaza plaza : getPlazas().values()) {
+			sb = new StringBuilder();
 			String tipo = plaza.getClass().toString();
 			tipo = plaza.getClass().getSimpleName();
-			texto = plaza.getNumeroPlaza() + ";" + plaza.getPrecio() + ";" + plaza.getMetrosCuadrados() + ";" + tipo
-					+";"+((plaza.getVehiculo()==null)?"null":plaza.getVehiculo().getMatricula())
-					+"\n";
-			writer.write(texto);
+			sb.append(plaza.getNumeroPlaza()).append(";");
+			sb.append(plaza.getPrecio()).append(";");
+			sb.append(plaza.getMetrosCuadrados()).append(";");
+			sb.append(tipo).append(";");
+			sb.append((plaza.getVehiculo() == null) ? "null" : plaza.getVehiculo().getMatricula()).append("\n");
+			writer.write(sb.toString());
 		}
 		writer.close();
 	}

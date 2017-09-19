@@ -35,10 +35,10 @@ public class Vehiculo {
 	}
 	public void inputVehiculoData() {
 		Scanner in= new Scanner(System.in);
-		System.out.print("Introduce modelo de vehículo: ");
-		setModelo(in.nextLine());
 		System.out.print("Introduce Matricula: ");
 		setMatricula(in.nextLine());
+		System.out.print("Introduce modelo de vehículo: ");
+		setModelo(in.nextLine());
 //		in.close();
 	}
 	@Override

@@ -7,7 +7,11 @@ public class Garaje {
 	private static Map<Integer,Plaza> plazas = new HashMap<Integer,Plaza>();
 	private static Map<String,Cliente> clientes = new HashMap<String,Cliente>();
 	private static Map<String, Vehiculo> vehiculos = new HashMap<String,Vehiculo>();
+	private static Map<String, Reserva> reservas = new HashMap<String,Reserva>();
 
+	public static Map<String, Reserva> getReservas() {
+		return reservas;
+	}
 	public static Map<String, Cliente> getClientes() {
 		return clientes;
 	}
@@ -16,7 +20,7 @@ public class Garaje {
 		Garaje.clientes = clientes;
 	}
 
-	public Map<String, Vehiculo> getVehiculos() {
+	public static Map<String, Vehiculo> getVehiculos() {
 		return vehiculos;
 	}
 
